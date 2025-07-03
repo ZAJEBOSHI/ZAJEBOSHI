@@ -96,6 +96,12 @@ function keyPressed() {
   if (key === ' ' || keyCode === UP_ARROW) {
     zajeboshi.jump();
   }
+  if (keyCode === LEFT_ARROW) {
+    zajeboshi.move(-1);
+  }
+  if (keyCode === RIGHT_ARROW) {
+    zajeboshi.move(1);
+  }
   if (keyCode === ENTER && gameOver) {
     resetGame();
   }
@@ -123,6 +129,11 @@ class Zajeboshi {
       this.velocityY = -jumpForce;
       isJumping = true;
     }
+  }
+
+  move(dir) {
+    this.x += dir * 20;
+    this.x = constrain(this.x, 0, width - this.w);
   }
 
   update() {
@@ -195,3 +206,6 @@ class Coin {
     return this.y > height;
   }
 }
+
+
+         
