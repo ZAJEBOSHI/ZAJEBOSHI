@@ -14,8 +14,8 @@ let rugpullSpawnRate = 90;
 let rugpullImg, zajeboshiImg;
 let coinSound, hitSound;
 
-let moveLeft = false;
-let moveRight = false;
+let leftPressed = false;
+let rightPressed = false;
 
 function preload() {
   zajeboshiImg = loadImage("zajeboshi.png");
@@ -27,6 +27,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   zajeboshi = new Zajeboshi();
+  zajeboshi.x = width / 2 - zajeboshi.w / 2;
   highScore = getItem("highScore") || 0;
 }
 
@@ -34,8 +35,8 @@ function draw() {
   background(255);
 
   if (!gameOver) {
-    if (moveLeft) zajeboshi.move(-1);
-    if (moveRight) zajeboshi.move(1);
+    if (leftPressed) zajeboshi.move(-1);
+    if (rightPressed) zajeboshi.move(1);
 
     zajeboshi.update();
     zajeboshi.display();
@@ -71,7 +72,7 @@ function draw() {
       coins[i].display();
 
       if (coins[i].collected(zajeboshi)) {
-        if (coinSound.isLoaded()) coinSound.play();
+        coinSound.play();
         score++;
         coins.splice(i, 1);
       }
@@ -103,10 +104,10 @@ function keyPressed() {
     zajeboshi.jump();
   }
   if (keyCode === LEFT_ARROW) {
-    moveLeft = true;
+    leftPressed = true;
   }
   if (keyCode === RIGHT_ARROW) {
-    moveRight = true;
+    rightPressed = true;
   }
   if (keyCode === ENTER && gameOver) {
     resetGame();
@@ -115,10 +116,10 @@ function keyPressed() {
 
 function keyReleased() {
   if (keyCode === LEFT_ARROW) {
-    moveLeft = false;
+    leftPressed = false;
   }
   if (keyCode === RIGHT_ARROW) {
-    moveRight = false;
+    rightPressed = false;
   }
 }
 
@@ -128,6 +129,7 @@ function resetGame() {
   rugpulls = [];
   coins = [];
   zajeboshi = new Zajeboshi();
+  zajeboshi.x = width / 2 - zajeboshi.w / 2;
 }
 
 class Zajeboshi {
@@ -222,7 +224,7 @@ class Coin {
   }
 }
 
-   
+
 
 
 
