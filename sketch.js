@@ -14,6 +14,9 @@ let rugpullSpawnRate = 90;
 let rugpullImg, zajeboshiImg;
 let coinSound, hitSound;
 
+let moveLeft = false;
+let moveRight = false;
+
 function preload() {
   zajeboshiImg = loadImage("zajeboshi.png");
   rugpullImg = loadImage("rugpull.png");
@@ -31,6 +34,9 @@ function draw() {
   background(255);
 
   if (!gameOver) {
+    if (moveLeft) zajeboshi.move(-1);
+    if (moveRight) zajeboshi.move(1);
+
     zajeboshi.update();
     zajeboshi.display();
 
@@ -65,7 +71,7 @@ function draw() {
       coins[i].display();
 
       if (coins[i].collected(zajeboshi)) {
-        coinSound.play();
+        if (coinSound.isLoaded()) coinSound.play();
         score++;
         coins.splice(i, 1);
       }
@@ -97,13 +103,22 @@ function keyPressed() {
     zajeboshi.jump();
   }
   if (keyCode === LEFT_ARROW) {
-    zajeboshi.move(-1);
+    moveLeft = true;
   }
   if (keyCode === RIGHT_ARROW) {
-    zajeboshi.move(1);
+    moveRight = true;
   }
   if (keyCode === ENTER && gameOver) {
     resetGame();
+  }
+}
+
+function keyReleased() {
+  if (keyCode === LEFT_ARROW) {
+    moveLeft = false;
+  }
+  if (keyCode === RIGHT_ARROW) {
+    moveRight = false;
   }
 }
 
@@ -132,7 +147,7 @@ class Zajeboshi {
   }
 
   move(dir) {
-    this.x += dir * 20;
+    this.x += dir * 10;
     this.x = constrain(this.x, 0, width - this.w);
   }
 
@@ -207,5 +222,9 @@ class Coin {
   }
 }
 
+   
 
-         
+
+
+ 
+ 
