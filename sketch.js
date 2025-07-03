@@ -226,7 +226,5 @@ class Coin {
 
 
 
-
-
  
  
